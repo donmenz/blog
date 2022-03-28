@@ -26,7 +26,7 @@ jobs:
       - name: Upload COS
         uses: zkqiang/tencent-cos-action@v0.1.0
         with:
-          args: upload -r /blog /
+          args: upload -r ./blog /
           secret_id: ${{ secrets.TCCOS }}
           secret_key: ${{ secrets.MY }}
           bucket: ${{ secrets.BID }}
