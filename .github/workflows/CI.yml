@@ -21,7 +21,7 @@ jobs:
           node-version: "10.x"
 
       - name: Git clone
-        run: cd ~ && git clone https://github.com/donmenz/blog.git
+        run: git clone https://github.com/donmenz/blog.git
 
       - name: Upload COS
         uses: zkqiang/tencent-cos-action@v0.1.0
