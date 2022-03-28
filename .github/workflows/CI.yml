@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout master
+        uses: actions/checkout@v2
+        with:
+          ref: master
+
+      - name: Setup node
+        uses: actions/setup-node@v1
+        with:
+          node-version: "10.x"
+
+      - name: Build project
+        run: yarn && yarn build
+
+     - name: Git clone
+        run: cd ~ && git clone https://github.com/donmenz/blog.git
+
+      - name: Upload COS
+        uses: zkqiang/tencent-cos-action@v0.1.0
+        with:
+          args: upload -r /blog /
+          secret_id: ${{ secrets.TCCOS }}
+          secret_key: ${{ secrets.MY }}
+          bucket: ${{ secrets.BID }}
+          region: ap-chengdu
