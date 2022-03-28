@@ -23,7 +23,7 @@ jobs:
       - name: Build project
         run: yarn && yarn build
 
-     - name: Git clone
+      - name: Git clone
         run: cd ~ && git clone https://github.com/donmenz/blog.git
 
       - name: Upload COS
