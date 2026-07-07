@@ -17,6 +17,7 @@
     "gray-matter": "^4.0.3"
   },
   "devDependencies": {
+    "@emnapi/core": "^1.11.2",
     "typescript": "^5.8.0"
   }
 }
