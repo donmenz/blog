@@ -1,27 +1,29 @@
 ---
 title: test
 date: '2026-07-07'
-type: hotel
+type: travel
 summary: >-
   首先
   去年项目刚上线的时候，折扣很大，70元左右一份还送大阪地铁一日券，后者怎么着也要30来块。而一份周游券最大可以兑换出高达价值250元的服务，也引来一些套利“砍树人”，有些人买几十份，兑换商场代金券叠加买东西套利，后来许多购物券接待点就
 country: Japan
 tags:
   - 日本旅行
-  - 酒店
   - 北海道
   - 关西
+  - 交通
   - JR Pass
+  - 优惠攻略
 ai_tags:
-  - hotel_record
-  - stay_record
+  - travel_record
   - hokkaido
   - kansai
+  - transit_record
   - rail_pass
+  - travel_deal
 season: unknown
 source: obsidian
 source_path: test.md
-source_updated_at: '2026-07-07T08:07:38.511Z'
+source_updated_at: '2026-07-07T08:27:38.286Z'
 ---
 ## 首先
 去年项目刚上线的时候，折扣很大，70元左右一份还送大阪地铁一日券，后者怎么着也要30来块。而一份周游券最大可以兑换出高达价值250元的服务，也引来一些套利“砍树人”，有些人买几十份，兑换商场代金券叠加买东西套利，后来许多购物券接待点就限制兑换，不得不说，这些人还是“聪明”。![image.png](https://pic.tsu.wang/202510/png87a3cc8b82c76ec056ea177140dc473d)
