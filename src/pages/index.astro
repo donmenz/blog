@@ -1,0 +1,90 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { collectTags, entryLocation, entrySlug, formatDate, getPublishedEntries, typeLabels } from "../lib/entries";
+
+const entries = await getPublishedEntries();
+const featured = entries[0];
+const tags = collectTags(entries).slice(0, 14);
+const types = Object.entries(typeLabels);
+---
+
+<BaseLayout>
+  <main>
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="kicker">Obsidian-first travel knowledge base</p>
+        <h1>東嬉遊記</h1>
+        <p class="lede">把日本旅行、温泉、酒店、城市与航空观察写成可被人阅读，也可被 AI 查询的个人知识数据库。</p>
+        <div class="hero-actions">
+          <a class="button primary" href="/search">探索内容</a>
+          <a class="button" href="/llms.txt">查看 AI 索引说明</a>
+        </div>
+      </div>
+      <img class="hero-image" src="/images/dongxi-hero.svg" alt="日本旅行路线与温泉、城市、航空记录拼贴" />
+    </section>
+
+    <section class="content-band">
+      <div class="section-heading">
+        <p class="kicker">Latest record</p>
+        <h2>最新记录</h2>
+      </div>
+      {featured && (
+        <a class="featured-card" href={`/entries/${entrySlug(featured)}`}>
+          <img src={featured.data.hero_image ?? "/images/default-entry.svg"} alt="" />
+          <span>
+            <small>{typeLabels[featured.data.type]} · {formatDate(featured.data.date)}</small>
+            <strong>{featured.data.title}</strong>
+            <em>{featured.data.summary}</em>
+          </span>
+        </a>
+      )}
+    </section>
+
+    <section class="content-band">
+      <div class="section-heading">
+        <p class="kicker">Structured types</p>
+        <h2>内容入口</h2>
+      </div>
+      <div class="type-grid">
+        {types.map(([type, label]) => (
+          <a class="type-tile" href={`/type/${type}`}>
+            <span>{label}</span>
+            <small>{entries.filter((entry) => entry.data.type === type).length} 篇</small>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <section class="content-band">
+      <div class="section-heading">
+        <p class="kicker">Knowledge stream</p>
+        <h2>全部记录</h2>
+      </div>
+      <div class="entry-grid">
+        {entries.map((entry) => (
+          <article class="entry-card">
+            <a href={`/entries/${entrySlug(entry)}`}>
+              <img src={entry.data.hero_image ?? "/images/default-entry.svg"} alt="" />
+              <span class="entry-meta">{typeLabels[entry.data.type]} · {formatDate(entry.data.date)}</span>
+              <h3>{entry.data.title}</h3>
+              <p>{entry.data.summary}</p>
+              <span class="entry-place">{entryLocation(entry) || entry.data.country}</span>
+            </a>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="content-band compact">
+      <div class="section-heading">
+        <p class="kicker">AI tags</p>
+        <h2>语义标签</h2>
+      </div>
+      <div class="tag-cloud">
+        {tags.map(({ tag, count }) => (
+          <a href={`/tags/${encodeURIComponent(tag)}`}>{tag}<span>{count}</span></a>
+        ))}
+      </div>
+    </section>
+  </main>
+</BaseLayout>

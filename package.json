@@ -1,0 +1,22 @@
+{
+  "name": "dongxi-voyage",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "ASTRO_TELEMETRY_DISABLED=1 astro dev",
+    "build": "ASTRO_TELEMETRY_DISABLED=1 astro build",
+    "preview": "ASTRO_TELEMETRY_DISABLED=1 astro preview",
+    "enrich:obsidian": "node scripts/enrich-obsidian.mjs",
+    "import:obsidian": "node scripts/import-obsidian.mjs",
+    "tag": "node scripts/ai-tagger.mjs",
+    "validate": "node scripts/validate-content.mjs"
+  },
+  "dependencies": {
+    "astro": "^7.0.6",
+    "gray-matter": "^4.0.3"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.0"
+  }
+}

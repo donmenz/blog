@@ -1,0 +1,50 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const siteName = "東嬉遊記";
+const { title = siteName, description = "日本旅行、温泉、酒店、城市与航空观察的个人知识数据库。" } = Astro.props;
+const fullTitle = title === siteName ? siteName : `${title} | ${siteName}`;
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <link rel="icon" href="/favicon.svg" />
+    <link rel="alternate" type="application/rss+xml" title="東嬉遊記 RSS" href="/rss.xml" />
+    <title>{fullTitle}</title>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="/" aria-label="東嬉遊記首页">
+        <span class="brand-mark">東</span>
+        <span>
+          <strong>東嬉遊記</strong>
+          <small>Dongxi Voyage</small>
+        </span>
+      </a>
+      <nav class="site-nav" aria-label="主导航">
+        <a href="/type/onsen">温泉</a>
+        <a href="/type/hotel">酒店</a>
+        <a href="/type/city">城市</a>
+        <a href="/search">搜索</a>
+        <a href="/llms.txt">llms.txt</a>
+      </nav>
+    </header>
+    <slot />
+    <footer class="site-footer">
+      <p>東嬉遊記是一个 Obsidian-first 的日本生活与旅行知识库。</p>
+      <p><a href="/rss.xml">RSS</a> · <a href="/llms.txt">AI 读取说明</a></p>
+    </footer>
+  </body>
+</html>

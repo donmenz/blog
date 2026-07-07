@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 560">
+  <rect width="900" height="560" fill="#f1eee5"/>
+  <path d="M120 410 C260 330 380 455 520 360 C650 275 740 340 820 290" fill="none" stroke="#1d6f76" stroke-width="30" stroke-linecap="round"/>
+  <circle cx="685" cy="135" r="65" fill="#b8402a"/>
+  <text x="105" y="140" font-size="64" font-family="serif" font-weight="700" fill="#20201d">東嬉遊記</text>
+</svg>

@@ -1,0 +1,36 @@
+---
+import { getCollection, render } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { entryLocation, entrySlug, formatDate, typeLabels } from "../../lib/entries";
+
+export async function getStaticPaths() {
+  const entries = await getCollection("entries");
+  return entries.map((entry) => ({ params: { slug: entrySlug(entry) }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const allTags = [...entry.data.tags, ...entry.data.ai_tags];
+---
+
+<BaseLayout title={entry.data.title} description={entry.data.summary}>
+  <main class="article-shell">
+    <header class="article-header">
+      <p class="kicker">{typeLabels[entry.data.type]} · {formatDate(entry.data.date)}</p>
+      <h1>{entry.data.title}</h1>
+      <p>{entry.data.summary}</p>
+      <div class="article-facts">
+        <span>{entryLocation(entry) || entry.data.country}</span>
+        <span>{entry.data.season}</span>
+        {entry.data.rating && <span>评分 {entry.data.rating}/10</span>}
+      </div>
+    </header>
+    <img class="article-hero" src={entry.data.hero_image ?? "/images/default-entry.svg"} alt="" />
+    <article class="prose">
+      <Content />
+    </article>
+    <aside class="article-tags" aria-label="标签">
+      {allTags.map((tag) => <a href={`/tags/${encodeURIComponent(tag)}`}>{tag}</a>)}
+    </aside>
+  </main>
+</BaseLayout>

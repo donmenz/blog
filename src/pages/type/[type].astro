@@ -1,0 +1,35 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { entryLocation, entrySlug, formatDate, getPublishedEntries, typeLabels } from "../../lib/entries";
+
+export async function getStaticPaths() {
+  return Object.keys(typeLabels).map((type) => ({ params: { type } }));
+}
+
+const { type } = Astro.params;
+const entries = (await getPublishedEntries()).filter((entry) => entry.data.type === type);
+const label = typeLabels[type] ?? type;
+---
+
+<BaseLayout title={label} description={`東嬉遊記的${label}记录。`}>
+  <main class="listing-shell">
+    <header class="listing-header">
+      <p class="kicker">Type index</p>
+      <h1>{label}</h1>
+      <p>{entries.length} 篇结构化记录</p>
+    </header>
+    <div class="entry-grid">
+      {entries.map((entry) => (
+        <article class="entry-card">
+          <a href={`/entries/${entrySlug(entry)}`}>
+            <img src={entry.data.hero_image ?? "/images/default-entry.svg"} alt="" />
+            <span class="entry-meta">{formatDate(entry.data.date)}</span>
+            <h2>{entry.data.title}</h2>
+            <p>{entry.data.summary}</p>
+            <span class="entry-place">{entryLocation(entry) || entry.data.country}</span>
+          </a>
+        </article>
+      ))}
+    </div>
+  </main>
+</BaseLayout>

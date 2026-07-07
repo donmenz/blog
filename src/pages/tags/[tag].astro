@@ -1,0 +1,37 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { collectTags, entryLocation, entrySlug, formatDate, getPublishedEntries, typeLabels } from "../../lib/entries";
+
+export async function getStaticPaths() {
+  const entries = await getPublishedEntries();
+  return collectTags(entries).map(({ tag }) => ({ params: { tag }, props: { tag } }));
+}
+
+const tag = Astro.props.tag;
+const entries = (await getPublishedEntries()).filter((entry) =>
+  [...entry.data.tags, ...entry.data.ai_tags].includes(tag)
+);
+---
+
+<BaseLayout title={tag} description={`東嬉遊記中带有 ${tag} 标签的记录。`}>
+  <main class="listing-shell">
+    <header class="listing-header">
+      <p class="kicker">Tag index</p>
+      <h1>{tag}</h1>
+      <p>{entries.length} 篇相关记录</p>
+    </header>
+    <div class="entry-grid">
+      {entries.map((entry) => (
+        <article class="entry-card">
+          <a href={`/entries/${entrySlug(entry)}`}>
+            <img src={entry.data.hero_image ?? "/images/default-entry.svg"} alt="" />
+            <span class="entry-meta">{typeLabels[entry.data.type]} · {formatDate(entry.data.date)}</span>
+            <h2>{entry.data.title}</h2>
+            <p>{entry.data.summary}</p>
+            <span class="entry-place">{entryLocation(entry) || entry.data.country}</span>
+          </a>
+        </article>
+      ))}
+    </div>
+  </main>
+</BaseLayout>

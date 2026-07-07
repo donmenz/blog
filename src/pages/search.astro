@@ -1,0 +1,54 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { entryLocation, entrySlug, formatDate, getPublishedEntries, typeLabels } from "../lib/entries";
+
+const entries = await getPublishedEntries();
+const searchIndex = entries.map((entry) => ({
+  title: entry.data.title,
+  summary: entry.data.summary,
+  type: typeLabels[entry.data.type],
+  url: `/entries/${entrySlug(entry)}`,
+  date: formatDate(entry.data.date),
+  location: entryLocation(entry),
+  tags: [...entry.data.tags, ...entry.data.ai_tags]
+}));
+---
+
+<BaseLayout title="搜索" description="搜索東嬉遊記的结构化旅行记录。">
+  <main class="listing-shell">
+    <header class="listing-header">
+      <p class="kicker">Local search</p>
+      <h1>搜索</h1>
+      <p>先用本地前端搜索跑通，后续可以替换为 Pagefind。</p>
+    </header>
+    <section class="search-panel">
+      <label for="search-input">关键词</label>
+      <input id="search-input" type="search" placeholder="温泉、北海道、quiet_place..." />
+      <div id="search-results" class="search-results"></div>
+    </section>
+  </main>
+  <script define:vars={{ searchIndex }}>
+    const input = document.querySelector("#search-input");
+    const results = document.querySelector("#search-results");
+
+    function render(items) {
+      results.innerHTML = items.map((item) => `
+        <a class="search-result" href="${item.url}">
+          <small>${item.type} · ${item.date}</small>
+          <strong>${item.title}</strong>
+          <span>${item.summary}</span>
+          <em>${[item.location, ...item.tags].filter(Boolean).join(" / ")}</em>
+        </a>
+      `).join("");
+    }
+
+    function search(query) {
+      const normalized = query.trim().toLowerCase();
+      if (!normalized) return searchIndex;
+      return searchIndex.filter((item) => JSON.stringify(item).toLowerCase().includes(normalized));
+    }
+
+    input.addEventListener("input", () => render(search(input.value)));
+    render(searchIndex);
+  </script>
+</BaseLayout>
