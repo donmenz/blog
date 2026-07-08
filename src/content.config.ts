@@ -8,8 +8,10 @@ const entries = defineCollection({
   loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/entries" }),
   schema: z.object({
     title: z.string(),
+    slug: z.string().optional(),
     date: z.coerce.date(),
     type: z.enum(entryTypes),
+    topics: z.array(z.string()).default([]),
     summary: z.string(),
     country: z.string().default("Japan"),
     region: z.string().optional(),

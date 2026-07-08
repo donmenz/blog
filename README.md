@@ -18,10 +18,12 @@ website-ready copy into `src/content/entries`.
 
 The importer is intentionally one-way:
 
-- It reads from Obsidian.
+- It recursively reads publishable Markdown from `/Users/donmen/obsidian/blog/story`.
+- It ignores `/Users/donmen/obsidian/blog/draft` and attachments folders.
+- It writes stable `slug`, inferred `type`, cross-domain `topics`, `tags`, and `ai_tags` back to
+  the Obsidian source frontmatter when missing.
 - It writes normalized Markdown into this repo.
-- It does not modify the Obsidian vault.
-- It skips Obsidian app/plugin folders and image folders.
+- It uses frontmatter, not folder names, as the website information architecture.
 
 Each imported Markdown file is normalized into the site's frontmatter schema. The first local AI
 layer is:
@@ -44,7 +46,7 @@ npm run build -- --force
 Use a different source folder when needed:
 
 ```bash
-OBSIDIAN_BLOG_DIR=/path/to/other/blog npm run import:obsidian
+OBSIDIAN_STORY_DIR=/path/to/other/story npm run import:obsidian
 ```
 
 ## Share Cards

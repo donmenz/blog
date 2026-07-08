@@ -1,6 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { collectTags, entryLocation, entrySlug, formatDate, getPublishedEntries, typeLabels } from "../lib/entries";
+import { collectTags, entryCoverImage, entryDefaultCoverImage, entryLocation, entrySlug, formatDate, getPublishedEntries, typeLabels } from "../lib/entries";
 import { getLatestXPosts } from "../lib/x-posts";
 
 const entries = await getPublishedEntries();
@@ -66,7 +66,9 @@ function formatXDate(date?: string) {
         {entries.map((entry, index) => (
           <article class={index >= visibleEntryLimit ? "entry-card is-extra" : "entry-card"} data-extra={index >= visibleEntryLimit ? "true" : undefined} hidden={index >= visibleEntryLimit}>
             <a href={`/entries/${entrySlug(entry)}`}>
-              <img src={entry.data.hero_image ?? "/images/default-entry.svg"} alt="" />
+              <span class="entry-cover">
+                <img src={entryCoverImage(entry, index)} data-fallback-src={entryDefaultCoverImage(index)} alt="" loading="lazy" />
+              </span>
               <span class="entry-meta">{typeLabels[entry.data.type]} · {formatDate(entry.data.date)}</span>
               <h3>{entry.data.title}</h3>
               <p>{entry.data.summary}</p>

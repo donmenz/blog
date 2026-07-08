@@ -23,7 +23,24 @@ export function formatDate(date: Date) {
 }
 
 export function entrySlug(entry: Awaited<ReturnType<typeof getPublishedEntries>>[number]) {
-  return entry.id.replace(/\.(md|mdx)$/i, "");
+  return entry.data.slug ?? entry.id.replace(/\.(md|mdx)$/i, "");
+}
+
+export function entryBodyImage(entry: Awaited<ReturnType<typeof getPublishedEntries>>[number]) {
+  const match = entry.body.match(/!\[[^\]]*\]\(([^)\s]+)(?:\s+"[^"]*")?\)/);
+  return match?.[1];
+}
+
+export function entryRealImage(entry: Awaited<ReturnType<typeof getPublishedEntries>>[number]) {
+  return entry.data.hero_image ?? entry.data.media.images[0] ?? entryBodyImage(entry);
+}
+
+export function entryDefaultCoverImage(index = 0) {
+  return `/images/entry-covers/entry-cover-${String((index % 9) + 1).padStart(2, "0")}.jpg`;
+}
+
+export function entryCoverImage(entry: Awaited<ReturnType<typeof getPublishedEntries>>[number], index = 0) {
+  return entryRealImage(entry) ?? entryDefaultCoverImage(index);
 }
 
 export function collectTags(entries: Awaited<ReturnType<typeof getPublishedEntries>>) {

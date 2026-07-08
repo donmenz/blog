@@ -1,14 +1,16 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { entryLocation, entrySlug, formatDate, getPublishedEntries, typeLabels } from "../../lib/entries";
+import { entryCoverImage, entryDefaultCoverImage, entryLocation, entrySlug, formatDate, getPublishedEntries, typeLabels } from "../../lib/entries";
 
 export async function getStaticPaths() {
   return Object.keys(typeLabels).map((type) => ({ params: { type } }));
 }
 
 const { type } = Astro.params;
-const entries = (await getPublishedEntries()).filter((entry) => entry.data.type === type);
 const label = typeLabels[type] ?? type;
+const entries = (await getPublishedEntries()).filter((entry) => {
+  return entry.data.type === type || entry.data.topics.includes(label) || entry.data.topics.includes(type);
+});
 ---
 
 <BaseLayout title={label} description={`東嬉遊記的${label}记录。`}>
@@ -19,10 +21,12 @@ const label = typeLabels[type] ?? type;
       <p>{entries.length} 篇结构化记录</p>
     </header>
     <div class="entry-grid">
-      {entries.map((entry) => (
+      {entries.map((entry, index) => (
         <article class="entry-card">
           <a href={`/entries/${entrySlug(entry)}`}>
-            <img src={entry.data.hero_image ?? "/images/default-entry.svg"} alt="" />
+            <span class="entry-cover">
+              <img src={entryCoverImage(entry, index)} data-fallback-src={entryDefaultCoverImage(index)} alt="" loading="lazy" />
+            </span>
             <span class="entry-meta">{formatDate(entry.data.date)}</span>
             <h2>{entry.data.title}</h2>
             <p>{entry.data.summary}</p>

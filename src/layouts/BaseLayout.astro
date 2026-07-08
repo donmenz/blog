@@ -64,5 +64,18 @@ const absoluteImage = new URL(image, site).toString();
       <p>東嬉遊記是一个安静生长的生活与旅行知识库。</p>
       <p><a href="/rss.xml">RSS</a> · <a href="/llms.txt">AI 读取说明</a></p>
     </footer>
+    <script is:inline>
+      document.querySelectorAll("img[data-fallback-src]").forEach((image) => {
+        image.addEventListener(
+          "error",
+          () => {
+            const fallback = image.dataset.fallbackSrc;
+            if (!fallback || image.src.endsWith(fallback)) return;
+            image.src = fallback;
+          },
+          { once: true }
+        );
+      });
+    </script>
   </body>
 </html>

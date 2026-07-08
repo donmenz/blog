@@ -2,6 +2,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import matter from "gray-matter";
+import { inferTopics, makeSlug, slugify, uniq } from "./obsidian-metadata.mjs";
 
 const root = fileURLToPath(new URL("../src/content/entries", import.meta.url));
 const files = (await fs.readdir(root)).filter((file) => file.endsWith(".md") || file.endsWith(".mdx"));
@@ -18,10 +19,6 @@ const rules = [
   { pattern: /秋|红叶|autumn|fall/i, season: "autumn", ai_tags: ["autumn_travel"] },
   { pattern: /夏|祭|summer/i, season: "summer", ai_tags: ["summer_travel"] }
 ];
-
-function uniq(values) {
-  return [...new Set(values.filter(Boolean))];
-}
 
 function inferSummary(content) {
   const text = content
@@ -45,9 +42,17 @@ for (const file of files) {
   const titleText = `${parsed.data.title ?? ""}`;
   const contextText = `${parsed.data.title ?? ""}\n${parsed.data.summary ?? ""}`;
   const next = { ...parsed.data };
+  const filenameSlug = slugify(path.basename(file, path.extname(file)));
 
   next.tags = Array.isArray(next.tags) ? next.tags : [];
   next.ai_tags = Array.isArray(next.ai_tags) ? next.ai_tags : [];
+  next.slug = makeSlug({
+    existingSlug: next.slug ?? filenameSlug,
+    title: next.title,
+    filename: file,
+    relativePath: file,
+    content: parsed.content
+  });
 
   if (!next.summary) next.summary = inferSummary(parsed.content);
   if (!next.country) next.country = "Japan";
@@ -65,6 +70,7 @@ for (const file of files) {
   }
 
   if (!next.type) next.type = "travel";
+  next.topics = uniq([...(Array.isArray(next.topics) ? next.topics : []), ...inferTopics(next.tags, next.type)]);
 
   const output = matter.stringify(parsed.content.trimStart(), next, {
     lineWidth: 100

@@ -1,11 +1,11 @@
 ---
 title: JR北海道周游券7折实操教学
+slug: story-JR北海道周游券7折实操教学
 date: '2025-11-13'
 type: travel
-summary: >-
-  昨天看到部分朋友在agoda买到8.5～9折的JR北海道周游券，其实还可以做到更低。本贴不仅介绍如何购买，还将介绍以下内容： 如何购买8.5折JR北海道周游券
-  首先打开agoda，网页、app都行，别用小程序。按一下步骤操作，不同的地区可能
-country: Japan
+topics:
+  - 杂记
+  - 交通
 tags:
   - 日本旅行
   - 北海道
@@ -18,10 +18,14 @@ ai_tags:
   - transit_record
   - rail_pass
   - travel_deal
+summary: >-
+  昨天看到部分朋友在agoda买到8.5～9折的JR北海道周游券，其实还可以做到更低。本贴不仅介绍如何购买，还将介绍以下内容： 如何购买8.5折JR北海道周游券
+  首先打开agoda，网页、app都行，别用小程序。按一下步骤操作，不同的地区可能
+country: Japan
 season: winter
 source: obsidian
-source_path: story/JR北海道周游券7折实操教学.md
-source_updated_at: '2025-11-14T08:43:52.941Z'
+source_path: JR北海道周游券7折实操教学.md
+source_updated_at: '2026-07-08T05:11:01.247Z'
 ---
 昨天看到部分朋友在agoda买到8.5～9折的JR北海道周游券，其实还可以做到更低。本贴不仅介绍如何购买，还将介绍以下内容：
 

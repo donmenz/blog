@@ -1,6 +1,6 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { collectTags, entryLocation, entrySlug, formatDate, getPublishedEntries, typeLabels } from "../../lib/entries";
+import { collectTags, entryCoverImage, entryDefaultCoverImage, entryLocation, entrySlug, formatDate, getPublishedEntries, typeLabels } from "../../lib/entries";
 
 export async function getStaticPaths() {
   const entries = await getPublishedEntries();
@@ -21,10 +21,12 @@ const entries = (await getPublishedEntries()).filter((entry) =>
       <p>{entries.length} 篇相关记录</p>
     </header>
     <div class="entry-grid">
-      {entries.map((entry) => (
+      {entries.map((entry, index) => (
         <article class="entry-card">
           <a href={`/entries/${entrySlug(entry)}`}>
-            <img src={entry.data.hero_image ?? "/images/default-entry.svg"} alt="" />
+            <span class="entry-cover">
+              <img src={entryCoverImage(entry, index)} data-fallback-src={entryDefaultCoverImage(index)} alt="" loading="lazy" />
+            </span>
             <span class="entry-meta">{typeLabels[entry.data.type]} · {formatDate(entry.data.date)}</span>
             <h2>{entry.data.title}</h2>
             <p>{entry.data.summary}</p>
