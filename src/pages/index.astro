@@ -1,68 +1,70 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { collectTags, entryLocation, entrySlug, formatDate, getPublishedEntries, typeLabels } from "../lib/entries";
+import { getLatestXPosts } from "../lib/x-posts";
 
 const entries = await getPublishedEntries();
-const featured = entries[0];
 const tags = collectTags(entries).slice(0, 14);
-const types = Object.entries(typeLabels);
+const xPosts = await getLatestXPosts(5);
+const visibleEntryLimit = 8;
+const hasMoreEntries = entries.length > visibleEntryLimit;
+
+function formatXDate(date?: string) {
+  if (!date) return "X";
+  const parsed = new Date(date);
+  if (Number.isNaN(parsed.valueOf())) return "X";
+  return new Intl.DateTimeFormat("zh-CN", {
+    month: "short",
+    day: "numeric"
+  }).format(parsed);
+}
 ---
 
 <BaseLayout>
   <main>
     <section class="hero">
       <div class="hero-copy">
-        <p class="kicker">Obsidian-first travel knowledge base</p>
         <h1>東嬉遊記</h1>
-        <p class="lede">把日本旅行、温泉、酒店、城市与航空观察写成可被人阅读，也可被 AI 查询的个人知识数据库。</p>
-        <div class="hero-actions">
-          <a class="button primary" href="/search">探索内容</a>
-          <a class="button" href="/llms.txt">查看 AI 索引说明</a>
-        </div>
+        <p class="lede">把一次温泉、一段车程、一间酒店和一座城市，慢慢写成可以回望、检索、继续生长的旅行笔记。</p>
       </div>
-      <img class="hero-image" src="/images/dongxi-hero.svg" alt="日本旅行路线与温泉、城市、航空记录拼贴" />
-    </section>
-
-    <section class="content-band">
-      <div class="section-heading">
-        <p class="kicker">Latest record</p>
-        <h2>最新记录</h2>
-      </div>
-      {featured && (
-        <a class="featured-card" href={`/entries/${entrySlug(featured)}`}>
-          <img src={featured.data.hero_image ?? "/images/default-entry.svg"} alt="" />
-          <span>
-            <small>{typeLabels[featured.data.type]} · {formatDate(featured.data.date)}</small>
-            <strong>{featured.data.title}</strong>
-            <em>{featured.data.summary}</em>
+      <aside class={xPosts.length > 0 ? "x-panel has-posts" : "x-panel"} aria-label="X">
+        <a class="x-link" href="https://x.com/don_tsua" target="_blank" rel="noopener noreferrer" aria-label="打开 @don_tsua 的 X 主页">
+          <span class="x-logo-mark" aria-hidden="true">
+            <img src="/images/x-logo.svg" alt="" width="20" height="20" />
+          </span>
+          <span class="x-profile-copy">
+            <span class="x-eyebrow">@don_tsua</span>
+            {xPosts.length === 0 && <small>新的行程、照片和临时想法，会先落在这里。</small>}
           </span>
         </a>
-      )}
+        {xPosts.length > 0 && (
+          <div class="x-posts">
+            {xPosts.map((post) => (
+              <a class="x-post" href={post.url} target="_blank" rel="noopener noreferrer">
+                <img class="x-post-avatar" src="/images/dongxi-avatar.jpg" alt="" width="40" height="40" />
+                <span class="x-post-content">
+                  <span class="x-post-meta">
+                    <strong>東嬉遊記</strong>
+                    <span>@don_tsua</span>
+                    <span>·</span>
+                    <time datetime={post.createdAt}>{formatXDate(post.createdAt)}</time>
+                  </span>
+                <p>{post.text}</p>
+                </span>
+              </a>
+            ))}
+          </div>
+        )}
+      </aside>
     </section>
 
-    <section class="content-band">
+    <section id="records" class="content-band">
       <div class="section-heading">
-        <p class="kicker">Structured types</p>
-        <h2>内容入口</h2>
-      </div>
-      <div class="type-grid">
-        {types.map(([type, label]) => (
-          <a class="type-tile" href={`/type/${type}`}>
-            <span>{label}</span>
-            <small>{entries.filter((entry) => entry.data.type === type).length} 篇</small>
-          </a>
-        ))}
-      </div>
-    </section>
-
-    <section class="content-band">
-      <div class="section-heading">
-        <p class="kicker">Knowledge stream</p>
         <h2>全部记录</h2>
       </div>
       <div class="entry-grid">
-        {entries.map((entry) => (
-          <article class="entry-card">
+        {entries.map((entry, index) => (
+          <article class={index >= visibleEntryLimit ? "entry-card is-extra" : "entry-card"} data-extra={index >= visibleEntryLimit ? "true" : undefined} hidden={index >= visibleEntryLimit}>
             <a href={`/entries/${entrySlug(entry)}`}>
               <img src={entry.data.hero_image ?? "/images/default-entry.svg"} alt="" />
               <span class="entry-meta">{typeLabels[entry.data.type]} · {formatDate(entry.data.date)}</span>
@@ -73,6 +75,11 @@ const types = Object.entries(typeLabels);
           </article>
         ))}
       </div>
+      {hasMoreEntries && (
+        <div class="more-row">
+          <button class="more-button" type="button" data-show-more>更多</button>
+        </div>
+      )}
     </section>
 
     <section class="content-band compact">
@@ -87,4 +94,13 @@ const types = Object.entries(typeLabels);
       </div>
     </section>
   </main>
+  <script is:inline>
+    const showMoreButton = document.querySelector("[data-show-more]");
+    showMoreButton?.addEventListener("click", () => {
+      document.querySelectorAll('[data-extra="true"]').forEach((entry) => {
+        entry.hidden = false;
+      });
+      showMoreButton.hidden = true;
+    });
+  </script>
 </BaseLayout>

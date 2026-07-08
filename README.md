@@ -47,6 +47,26 @@ Use a different source folder when needed:
 OBSIDIAN_BLOG_DIR=/path/to/other/blog npm run import:obsidian
 ```
 
+## Share Cards
+
+Generate image cards from one imported Markdown entry:
+
+```bash
+npm run share:cards -- --entry=test
+```
+
+The generator writes SVG image files into `public/share-cards`:
+
+- `xhs`: vertical cards for 小红书.
+- `x`: horizontal cards for X.
+
+Use `--platform=xhs` or `--platform=x` to export one format, and `--handle=@yourname` to change
+the footer watermark. Add `--png` to render upload-ready PNG files with local Chrome:
+
+```bash
+npm run share:cards -- --entry=test --platform=xhs --png
+```
+
 ## Deployment Target
 
 - Content: Obsidian Markdown

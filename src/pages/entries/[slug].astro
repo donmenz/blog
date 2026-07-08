@@ -11,9 +11,44 @@ export async function getStaticPaths() {
 const { entry } = Astro.props;
 const { Content } = await render(entry);
 const allTags = [...entry.data.tags, ...entry.data.ai_tags];
+const site = "https://tsu.wang";
+const canonical = new URL(`/entries/${entrySlug(entry)}/`, site).toString();
+const image = entry.data.hero_image ?? "/images/default-entry.svg";
+const seasonLabels: Record<string, string> = {
+  spring: "春",
+  summer: "夏",
+  autumn: "秋",
+  winter: "冬"
+};
+const seasonLabel = seasonLabels[entry.data.season];
+const articleJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  headline: entry.data.title,
+  description: entry.data.summary,
+  datePublished: entry.data.date.toISOString(),
+  dateModified: entry.data.date.toISOString(),
+  author: {
+    "@type": "Person",
+    name: "東嬉遊記",
+    url: site
+  },
+  publisher: {
+    "@type": "Organization",
+    name: "東嬉遊記",
+    logo: {
+      "@type": "ImageObject",
+      url: new URL("/images/dongxi-avatar.jpg", site).toString()
+    }
+  },
+  image: new URL(image, site).toString(),
+  mainEntityOfPage: canonical,
+  url: canonical,
+  keywords: allTags
+};
 ---
 
-<BaseLayout title={entry.data.title} description={entry.data.summary}>
+<BaseLayout title={entry.data.title} description={entry.data.summary} canonical={canonical} image={image} ogType="article" jsonLd={articleJsonLd}>
   <main class="article-shell">
     <header class="article-header">
       <p class="kicker">{typeLabels[entry.data.type]} · {formatDate(entry.data.date)}</p>
@@ -21,11 +56,13 @@ const allTags = [...entry.data.tags, ...entry.data.ai_tags];
       <p>{entry.data.summary}</p>
       <div class="article-facts">
         <span>{entryLocation(entry) || entry.data.country}</span>
-        <span>{entry.data.season}</span>
+        {seasonLabel && <span>{seasonLabel}</span>}
         {entry.data.rating && <span>评分 {entry.data.rating}/10</span>}
       </div>
     </header>
-    <img class="article-hero" src={entry.data.hero_image ?? "/images/default-entry.svg"} alt="" />
+    <figure class="article-hero-wrap">
+      <img class="article-hero" src={entry.data.hero_image ?? "/images/default-entry.svg"} alt="" />
+    </figure>
     <article class="prose">
       <Content />
     </article>

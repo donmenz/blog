@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <rect width="100%" height="100%" fill="#f7efe3"/>
+  <rect x="44" y="44" width="1512" height="812" rx="34" fill="#fffaf1" stroke="#d7b98a" stroke-width="3"/>
+  <circle cx="1490" cy="103.83999999999999" r="48" fill="#d9462f" opacity="0.92"/>
+  <circle cx="1441.6" cy="96.80000000000001" r="18" fill="#2f6f73" opacity="0.9"/>
+  <g font-family="-apple-system, BlinkMacSystemFont, 'PingFang SC', 'Hiragino Sans GB', 'Noto Sans CJK SC', sans-serif">
+    <text x="88" y="88" font-size="26" font-weight="700" fill="#2f6f73" letter-spacing="0">X分享卡</text>
+    <text x="88" y="160" font-size="58" font-weight="800" fill="#20201d">test</text>
+    <line x1="88" y1="213.27999999999997" x2="1512" y2="213.27999999999997" stroke="#d7b98a" stroke-width="2"/>
+    <text x="88" y="263.28" font-size="34" font-weight="500" fill="#1f2933">首先 去年项目刚上线的时候，折扣很大，70元左右一份还送大阪地铁一日券，后者怎么着也要30</text>
+<text x="88" y="311.55999999999995" font-size="34" font-weight="500" fill="#1f2933">来块。而一份周游券最大可以兑换出高达价值250元的服务，也引来一些套利“砍树人”，有些人买</text>
+<text x="88" y="359.84" font-size="34" font-weight="500" fill="#1f2933">几十份，兑换商场代金券叠加买东西套利，后来许多购物券接待点就限制兑换，不得不说，这些人</text>
+<text x="88" y="408.12" font-size="34" font-weight="500" fill="#1f2933">还是“聪明”。</text>
+    <text x="88" y="820" font-size="25" font-weight="650" fill="#8a6042">@dongxi.voyage</text>
+    <text x="88" y="780" font-size="22" fill="#9a7a5f">2026-07-07 · travel / 日本旅行 / 北海道 / 关西</text>
+    <text x="1512" y="820" font-size="25" font-weight="700" text-anchor="end" fill="#8a6042">01 / 03</text>
+  </g>
+</svg>

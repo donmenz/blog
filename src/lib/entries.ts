@@ -1,11 +1,11 @@
 import { getCollection } from "astro:content";
 
 export const typeLabels: Record<string, string> = {
-  travel: "旅行记录",
+  travel: "杂记",
   onsen: "温泉",
   hotel: "酒店",
   city: "城市观察",
-  aviation: "航空",
+  aviation: "交通",
   japan_life: "日本生活"
 };
 

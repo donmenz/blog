@@ -4,11 +4,24 @@ import "../styles/global.css";
 interface Props {
   title?: string;
   description?: string;
+  canonical?: string;
+  image?: string;
+  ogType?: string;
+  jsonLd?: Record<string, unknown>;
 }
 
 const siteName = "東嬉遊記";
-const { title = siteName, description = "日本旅行、温泉、酒店、城市与航空观察的个人知识数据库。" } = Astro.props;
+const site = "https://tsu.wang";
+const {
+  title = siteName,
+  description = "日本旅行、温泉、酒店、城市与交通观察的个人知识数据库。",
+  canonical = new URL(Astro.url.pathname, site).toString(),
+  image = "/images/dongxi-hero-map.png",
+  ogType = "website",
+  jsonLd
+} = Astro.props;
 const fullTitle = title === siteName ? siteName : `${title} | ${siteName}`;
+const absoluteImage = new URL(image, site).toString();
 ---
 
 <!doctype html>
@@ -17,33 +30,38 @@ const fullTitle = title === siteName ? siteName : `${title} | ${siteName}`;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={absoluteImage} />
+    <meta name="twitter:card" content="summary_large_image" />
     <link rel="icon" href="/favicon.svg" />
     <link rel="alternate" type="application/rss+xml" title="東嬉遊記 RSS" href="/rss.xml" />
+    {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
     <title>{fullTitle}</title>
   </head>
   <body>
     <header class="site-header">
       <a class="brand" href="/" aria-label="東嬉遊記首页">
-        <span class="brand-mark">東</span>
+        <img class="brand-mark" src="/images/dongxi-avatar.jpg" alt="" width="38" height="38" />
         <span>
           <strong>東嬉遊記</strong>
-          <small>Dongxi Voyage</small>
+          <small>旅の覚書</small>
         </span>
       </a>
       <nav class="site-nav" aria-label="主导航">
         <a href="/type/onsen">温泉</a>
         <a href="/type/hotel">酒店</a>
         <a href="/type/city">城市</a>
-        <a href="/search">搜索</a>
-        <a href="/llms.txt">llms.txt</a>
+        <a href="/type/aviation">交通</a>
+        <a href="/type/travel">杂记</a>
       </nav>
     </header>
     <slot />
     <footer class="site-footer">
-      <p>東嬉遊記是一个 Obsidian-first 的日本生活与旅行知识库。</p>
+      <p>東嬉遊記是一个安静生长的生活与旅行知识库。</p>
       <p><a href="/rss.xml">RSS</a> · <a href="/llms.txt">AI 读取说明</a></p>
     </footer>
   </body>
