@@ -1,3 +1,11 @@
+@font-face {
+  font-family: "LXGW Bright";
+  src: url("/fonts/lxgw-bright/LXGWBright-Regular.woff2") format("woff2");
+  font-display: swap;
+  font-style: normal;
+  font-weight: 300 700;
+}
+
 :root {
   color-scheme: light;
   --ink: #24231f;
@@ -12,13 +20,15 @@
   --moss: #566f5f;
   --gold: #a57935;
   --shadow: 0 18px 42px rgba(34, 49, 39, 0.06);
-  font-family:
+  --font-main:
+    "LXGW Bright",
     "Noto Serif SC",
     "Songti SC",
     "Hiragino Mincho ProN",
     "Yu Mincho",
     Georgia,
     serif;
+  font-family: var(--font-main);
 }
 
 * {
@@ -170,11 +180,7 @@ main {
 .kicker {
   margin: 0 0 14px;
   color: var(--moss);
-  font-family:
-    Inter,
-    "Noto Sans SC",
-    "PingFang SC",
-    sans-serif;
+  font-family: var(--font-main);
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0;
@@ -287,11 +293,7 @@ h3 {
 
 .x-eyebrow {
   color: var(--moss);
-  font-family:
-    Inter,
-    "Noto Sans SC",
-    "PingFang SC",
-    sans-serif;
+  font-family: var(--font-main);
   font-size: 13px;
   font-weight: 700;
 }
@@ -338,11 +340,7 @@ h3 {
   flex-wrap: wrap;
   gap: 4px;
   align-items: baseline;
-  font-family:
-    Inter,
-    "Noto Sans SC",
-    "PingFang SC",
-    sans-serif;
+  font-family: var(--font-main);
   font-size: 14px;
   line-height: 1.35;
 }
@@ -362,11 +360,7 @@ h3 {
   margin: 0;
   overflow: hidden;
   color: #3b3934;
-  font-family:
-    Inter,
-    "Noto Sans SC",
-    "PingFang SC",
-    sans-serif;
+  font-family: var(--font-main);
   font-size: 15px;
   line-height: 1.45;
   -webkit-box-orient: vertical;
@@ -376,11 +370,7 @@ h3 {
 .entry-meta,
 .search-result small {
   color: var(--moss);
-  font-family:
-    Inter,
-    "Noto Sans SC",
-    "PingFang SC",
-    sans-serif;
+  font-family: var(--font-main);
   font-size: 12px;
   font-weight: 700;
 }
@@ -481,11 +471,7 @@ h3 {
   border: 1px solid var(--line);
   border-radius: 999px;
   cursor: pointer;
-  font:
-    700 14px/1 Inter,
-    "Noto Sans SC",
-    "PingFang SC",
-    sans-serif;
+  font: 700 14px/1 var(--font-main);
 }
 
 .more-button:hover {
@@ -513,11 +499,7 @@ h3 {
   align-items: center;
   padding: 7px 11px;
   color: var(--muted);
-  font-family:
-    Inter,
-    "Noto Sans SC",
-    "PingFang SC",
-    sans-serif;
+  font-family: var(--font-main);
   font-size: 13px;
 }
 
@@ -574,11 +556,7 @@ h3 {
 .article-facts span {
   padding: 7px 11px;
   color: var(--muted);
-  font-family:
-    Inter,
-    "Noto Sans SC",
-    "PingFang SC",
-    sans-serif;
+  font-family: var(--font-main);
   font-size: 13px;
 }
 
@@ -645,11 +623,7 @@ h3 {
 .article-tags a {
   padding: 7px 11px;
   color: var(--moss);
-  font-family:
-    Inter,
-    "Noto Sans SC",
-    "PingFang SC",
-    sans-serif;
+  font-family: var(--font-main);
   font-size: 13px;
   font-weight: 700;
 }
@@ -661,11 +635,7 @@ h3 {
 
 .search-panel label {
   color: var(--moss);
-  font-family:
-    Inter,
-    "Noto Sans SC",
-    "PingFang SC",
-    sans-serif;
+  font-family: var(--font-main);
   font-size: 13px;
   font-weight: 700;
 }

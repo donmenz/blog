@@ -55,18 +55,12 @@ const articleJsonLd = {
     <header class="article-header">
       <p class="kicker">{typeLabels[entry.data.type]} · {formatDate(entry.data.date)}</p>
       <h1>{entry.data.title}</h1>
-      <p>{entry.data.summary}</p>
       <div class="article-facts">
         <span>{entryLocation(entry) || entry.data.country}</span>
         {seasonLabel && <span>{seasonLabel}</span>}
         {entry.data.rating && <span>评分 {entry.data.rating}/10</span>}
       </div>
     </header>
-    {image && (
-      <figure class="article-hero-wrap">
-        <img class="article-hero" src={image} data-fallback-src={fallbackImage} alt="" />
-      </figure>
-    )}
     <article class="prose">
       <Content />
     </article>
